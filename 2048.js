@@ -57,9 +57,14 @@ function getNumerOfColumnsAndRows(){
 
 function onRestart(){
     let [numColumns, numRows] = getNumerOfColumnsAndRows()
-
-    board = new Board2048(0,0,canvas.height,canvas.width,numColumns,numRows, true);
-    board.draw(ctx);
+    board = new Board2048(0,0,canvasMaxHeigh,canvasMaxWidth,numColumns,numRows, true);
+    
+	// set canvas size from area covered by the board
+	canvas.width = Math.min(canvasMaxWidth, board.width)
+	canvas.height = Math.min(canvasMaxHeigh, board.height)
+	
+	// draw AFTER resize
+	board.draw(ctx);
 
     // for 2x2 gameover after init is possible
     if(board.checkIsGameover()){
@@ -72,9 +77,12 @@ const inputNumRows = document.getElementById("inputNumRows");
 const inputNumCols = document.getElementById("inputNumCols");
 
 const canvas = document.getElementById("canvas");
-//actually set size
-canvas.height = 700;
-canvas.width = 700;
+const canvasMaxWidth = 700;
+const canvasMaxHeigh = 700;
+
+//actually set size - later reset to size of board
+canvas.height = canvasMaxWidth;
+canvas.width = canvasMaxHeigh;
 
 const ctx = canvas.getContext("2d");
 ctx.fillStyle = "#333333"
